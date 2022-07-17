@@ -12,7 +12,7 @@ struct CurrentTemperatureUnit: EnvironmentKey {
     static var defaultValue: Binding<TemperatureUnit> = .constant(.fahrenheit)
 }
 
-extension EnvironmentValues {
+extension EnvironmentValues {    
     var currentTemperatureUnit: Binding<TemperatureUnit> {
         get { self[CurrentTemperatureUnit.self] }
         set { self[CurrentTemperatureUnit.self] = newValue }

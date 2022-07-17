@@ -10,35 +10,32 @@ struct CityForecastView: View {
 
         let err = Binding.constant($viewModel.state.wrappedValue?.error ?? nil)
 
-        ZStack {
-            Color.element
-            List {
+        List {
 
-                ForEach(viewModel.periods) { period in
-                    Group {
+            ForEach(viewModel.periods) { period in
+
+                Group {
                     CityForecastCellView(viewModel: period)
-                    }
-                        .background(
-                            ZStack {
-                                Rectangle()
-                                    .fill(Color.element)
-                                    .topLeftShadow(radius: 3, offset: 1)
-                                Rectangle()
-                                    .inset(by: 3)
-                                    .fill(Color.element)
-                                    .rightBottomShadow(radius: 1, offset: 1)
-                            }
-                        )
                 }
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.element)
-                .listRowInsets(.none)
-                .background(Color.element)
-                .listStyle(.plain)
-
+                .background(
+                    ZStack {
+                        Rectangle()
+                            .fill(Color.element)
+                            .topLeftShadow(radius: 3, offset: 1)
+                        Rectangle()
+                            .inset(by: 3)
+                            .fill(Color.element)
+                            .rightBottomShadow(radius: 1, offset: 1)
+                    }
+                )
             }
-            .navigationTitle(viewModel.cityViewModel.name)
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.element)
+            .listRowInsets(.none)
         }
+        .navigationTitle(viewModel.cityViewModel.name)
+        .listStyle(.plain)
+        .background(Color.element)
         .navigationBarItems(
             trailing: Button(action: {
                 currentTemperatureUnit.wrappedValue.toggle()

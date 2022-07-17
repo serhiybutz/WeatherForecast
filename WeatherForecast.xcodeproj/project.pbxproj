@@ -218,12 +218,12 @@
 		409352FF28839FF1000C69EB /* View */ = {
 			isa = PBXGroup;
 			children = (
-				409353052883A036000C69EB /* AsyncImageView.swift */,
-				409353032883A036000C69EB /* CityCellView.swift */,
-				409353012883A036000C69EB /* CityForecastCellView.swift */,
-				409353062883A036000C69EB /* CityForecastView.swift */,
-				409353072883A037000C69EB /* CityListView.swift */,
 				409353042883A036000C69EB /* ContentView.swift */,
+				409353072883A037000C69EB /* CityListView.swift */,
+				409353032883A036000C69EB /* CityCellView.swift */,
+				409353062883A036000C69EB /* CityForecastView.swift */,
+				409353012883A036000C69EB /* CityForecastCellView.swift */,
+				409353052883A036000C69EB /* AsyncImageView.swift */,
 				409353022883A036000C69EB /* TemperatureView.swift */,
 			);
 			path = View;
@@ -232,11 +232,11 @@
 		4093530028839FF7000C69EB /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				4093530F2883A046000C69EB /* CityForecastViewModel.swift */,
 				409353122883A047000C69EB /* CityListViewModel.swift */,
 				409353132883A047000C69EB /* CityViewModel.swift */,
-				409353102883A046000C69EB /* ImageLoader.swift */,
+				4093530F2883A046000C69EB /* CityForecastViewModel.swift */,
 				409353112883A046000C69EB /* PeriodViewModel.swift */,
+				409353102883A046000C69EB /* ImageLoader.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -244,8 +244,8 @@
 		409353192883A04F000C69EB /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4093531F2883A0CF000C69EB /* City.swift */,
 				409353202883A0CF000C69EB /* CityList.swift */,
+				4093531F2883A0CF000C69EB /* City.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
