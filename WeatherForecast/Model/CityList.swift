@@ -1,10 +1,14 @@
 import SwiftUI
 
-class CityList: Codable {
+struct CityList: Codable {
 
-    var cities: [City] = []
+    // MARK: - Properties
+
+    let cities: [City]
 
     static let jsonFileName = "cities"
+
+    // MARK: - Methods
 
     static func make() -> CityList {
         

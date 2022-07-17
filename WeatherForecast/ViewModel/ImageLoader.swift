@@ -3,6 +3,8 @@ import UIKit
 
 class ImageLoader: ObservableObject {
 
+    // MARK: - Properties
+
     @Published var image: UIImage?
 
     private(set) var isLoading = false
@@ -12,6 +14,8 @@ class ImageLoader: ObservableObject {
     private var cancellable: AnyCancellable?
 
     private static let imageLoadingQueue = DispatchQueue(label: "image-loading")
+
+    // MARK: - Initialization
 
     init(url: URL?, cache: ImageCache? = nil) {
 
@@ -23,6 +27,8 @@ class ImageLoader: ObservableObject {
 
         cancel()
     }
+
+    // MARK: - Methods
 
     func load() {
 
@@ -51,6 +57,8 @@ class ImageLoader: ObservableObject {
 
         cancellable?.cancel()
     }
+
+    // MARK: - Helpers
 
     private func onStart() {
 

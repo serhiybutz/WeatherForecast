@@ -83,7 +83,7 @@ class WeatherGovWebAPI {
             .eraseToAnyPublisher()
     }
 
-    static func dailyForecastPublisher(wfo: String, x: Int, y: Int) -> AnyPublisher<WeeklyForecast, Swift.Error> {
+    static func weeklyForecastPublisher(wfo: String, x: Int, y: Int) -> AnyPublisher<WeeklyForecast, Swift.Error> {
 
         guard let endpointURL = GridpointForecastEndpoint(wfo: wfo, x: x, y: y).url
         else {

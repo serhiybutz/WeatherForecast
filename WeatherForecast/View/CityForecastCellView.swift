@@ -1,6 +1,5 @@
 import SwiftUI
 
-
 struct CityForecastCellView: View {
 
     let viewModel: PeriodViewModel

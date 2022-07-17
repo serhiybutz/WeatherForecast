@@ -3,7 +3,7 @@ import Foundation
 extension WeatherGovWebAPI {
     
     /// Point location (geographic coordinates) of the object
-    struct Point: Decodable {
+    struct Point: Decodable, Equatable {
 
         /// Latitude
         let lat: Double

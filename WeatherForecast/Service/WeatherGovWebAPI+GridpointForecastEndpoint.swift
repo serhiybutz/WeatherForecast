@@ -16,12 +16,12 @@ extension WeatherGovWebAPI {
 
         var path: String { "/gridpoints/\(wfo)/\(x),\(y)/forecast" }
 
-        // (Required params)
-
         /// Forecast office ID
         let wfo: String
+
         /// Forecast grid X coordinate
         let x: Int
+
         /// Forecast grid Y coordinate
         let y: Int
 

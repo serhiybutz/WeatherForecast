@@ -8,8 +8,10 @@ extension WeatherGovWebAPI {
 
             /// Forecast office ID
             let gridId: String // = WFO
+
             /// Forecast grid X coordinate
             let gridX: Int
+            
             /// Forecast grid Y coordinate
             let gridY: Int
         }

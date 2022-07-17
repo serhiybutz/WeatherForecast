@@ -16,8 +16,6 @@ extension WeatherGovWebAPI {
 
         var path: String { "/points/\(location.lat),\(location.lon)" }
 
-        // (Required params)
-
         /// Location (latitude and longitude)
         let location: Point
 

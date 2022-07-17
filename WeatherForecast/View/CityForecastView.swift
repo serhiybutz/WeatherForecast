@@ -58,7 +58,7 @@ struct CityForecastView: View {
 
 struct CityForecastView_Previews: PreviewProvider {
     static var previews: some View {
-        CityForecastView(viewModel: CityForecastViewModel(cityViewModel: CityViewModel(City(name: "Chicago", latitude: 41.8781136, longitude: -87.6297982, image: "chicago"))))
+        CityForecastView(viewModel: CityForecastViewModel(cityViewModel: CityViewModel(City(name: "Chicago", latitude: 41.8781136, longitude: -87.6297982))))
     }
 }
 

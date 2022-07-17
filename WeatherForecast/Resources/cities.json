@@ -4,31 +4,26 @@
 			"name": "Cupertino",
             "latitude": 37.3229978,
             "longitude": -122.0321823,
-            "image": "cupertino"
 		},
 		{
             "name": "Denver",
             "latitude": 39.7392358,
             "longitude": -104.990251,
-            "image": "denver"
 		},
 		{
             "name": "Chicago",
             "latitude": 41.8781136,
             "longitude": -87.6297982,
-            "image": "chicago"
 		},
 		{
             "name": "New York",
             "latitude": 40.7127837,
             "longitude": -74.0059413,
-            "image": "newyork"
 		},
 		{
             "name": "London",
             "latitude": 51.509865,
             "longitude": -0.118092,
-            "image": "london"
 		}
 	]
 }
