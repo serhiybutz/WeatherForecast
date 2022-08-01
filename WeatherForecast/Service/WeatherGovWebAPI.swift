@@ -73,6 +73,8 @@ class WeatherGovWebAPI {
             .decode(type: LocationMetadata.self, decoder: JSONDecoder())
             .handleEvents(receiveOutput: { meta in
 
+                dispatchPrecondition(condition: .notOnQueue(.main))
+
                 os_log(.info, log: OSLog.default, "Fetching point {\(point.lat),\(point.lon)} metadata succeded: \(meta.properties.gridId), \(meta.properties.gridX), \(meta.properties.gridY)")
             }, receiveCompletion: {
 
@@ -94,6 +96,8 @@ class WeatherGovWebAPI {
             .decode(type: WeeklyForecast.self, decoder: JSONDecoder())
             .handleEvents(receiveOutput: { forecast in
 
+                dispatchPrecondition(condition: .notOnQueue(.main))
+
                 os_log(.info, log: OSLog.default, "Fetching forecast for WFO: \(wfo), x: \(x), y: \(y) succeded: downloaded \(forecast.properties.periods.count) periods")
             }, receiveCompletion: {
 
@@ -108,6 +112,8 @@ class WeatherGovWebAPI {
 
         return dataTaskPublisher(for: url)
             .handleEvents(receiveOutput: { forecast in
+
+                dispatchPrecondition(condition: .notOnQueue(.main))
 
                 os_log(.info, log: OSLog.default, "Fetching icon \(url) succeded")
             }, receiveCompletion: {
