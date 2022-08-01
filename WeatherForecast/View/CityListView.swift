@@ -17,10 +17,10 @@ struct CityListView: View {
                         navigateToCityForecast = city
                     } label: {
                         CityCellView(viewModel: city)
-                            .frame(maxWidth: 250)
+                            .frame(maxWidth: Constants.CityList.itemsMaxWidth)
                     }
                     .buttonStyle(NeuCapsuleButtonStyle())
-                    .padding(20)
+                    .padding(Constants.CityList.itemsPadding)
                     .frame(maxWidth: .infinity)
                 }
                 .listRowSeparator(.hidden)

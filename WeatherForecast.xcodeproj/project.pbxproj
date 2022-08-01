@@ -42,6 +42,7 @@
 		4093532F2883A11C000C69EB /* WeatherGovWebAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409353282883A11C000C69EB /* WeatherGovWebAPI.swift */; };
 		409353302883A11C000C69EB /* WeatherGovWebAPI+WeeklyForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409353292883A11C000C69EB /* WeatherGovWebAPI+WeeklyForecast.swift */; };
 		409353312883A11C000C69EB /* WeatherGovWebAPI+Period.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093532A2883A11C000C69EB /* WeatherGovWebAPI+Period.swift */; };
+		40B6EE4428980E4B00CD9D3E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B6EE4328980E4B00CD9D3E /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,7 @@
 		409353282883A11C000C69EB /* WeatherGovWebAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherGovWebAPI.swift; sourceTree = "<group>"; };
 		409353292883A11C000C69EB /* WeatherGovWebAPI+WeeklyForecast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WeatherGovWebAPI+WeeklyForecast.swift"; sourceTree = "<group>"; };
 		4093532A2883A11C000C69EB /* WeatherGovWebAPI+Period.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WeatherGovWebAPI+Period.swift"; sourceTree = "<group>"; };
+		40B6EE4328980E4B00CD9D3E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				409352AA288357A0000C69EB /* WeatherForecastApp.swift */,
+				40B6EE4328980E4B00CD9D3E /* Constants.swift */,
 				4093531A2883A09D000C69EB /* Environment */,
 				409352FF28839FF1000C69EB /* View */,
 				4093530028839FF7000C69EB /* ViewModel */,
@@ -351,6 +354,7 @@
 				409353092883A037000C69EB /* TemperatureView.swift in Sources */,
 				409353082883A037000C69EB /* CityForecastCellView.swift in Sources */,
 				409352FE28839FCA000C69EB /* Color+Neu.swift in Sources */,
+				40B6EE4428980E4B00CD9D3E /* Constants.swift in Sources */,
 				409352FD28839FCA000C69EB /* NeuCapsuleButtonStyle.swift in Sources */,
 				409352F928839FCA000C69EB /* View+Shadow.swift in Sources */,
 				4093532E2883A11C000C69EB /* WeatherGovWebAPI+LocationMetadata.swift in Sources */,

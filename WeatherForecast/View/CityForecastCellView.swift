@@ -16,7 +16,7 @@ struct CityForecastCellView: View {
                             Text(temperatureTrend)
                         }
                         .frame(maxWidth: .infinity)
-                        .padding(5)
+                        .padding(Constants.Forecast.Cell.elementPadding)
                     }
                     HStack {
                         Text("Wind speed:")
@@ -24,12 +24,12 @@ struct CityForecastCellView: View {
                         Text(viewModel.windSpeed)
                     }
                     .frame(maxWidth: .infinity)
-                    .padding(5)
+                    .padding(Constants.Forecast.Cell.elementPadding)
                     HStack {
                         Text(viewModel.detailedForecast)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(5)
+                    .padding(Constants.Forecast.Cell.elementPadding)
                 }
                 .font(.caption)
                 .padding(0)
@@ -37,8 +37,8 @@ struct CityForecastCellView: View {
             label: {
                 CityForecastCellBriefView(viewModel: viewModel)
             })
-        .padding([.horizontal], 7)
-        .padding([.vertical], 20)
+        .padding([.horizontal], Constants.Forecast.Cell.DisclosureGroup.horizontalPadding)
+        .padding([.vertical], Constants.Forecast.Cell.DisclosureGroup.verticalPadding)
     }
 }
 
@@ -51,7 +51,7 @@ struct CityForecastCellBriefView: View {
         HStack {
 
             Text(viewModel.name)
-                .padding([.horizontal], 5)
+                .padding([.horizontal], Constants.Forecast.Cell.elementPadding)
 
             Spacer()
 
@@ -59,22 +59,26 @@ struct CityForecastCellBriefView: View {
                 sourceTemperature: viewModel.temperature,
                 sourceTemperatureUnit: viewModel.temperatureUnit
             )
-            .padding([.horizontal], 5)
+            .padding([.horizontal], Constants.Forecast.Cell.elementPadding)
 
             AsyncImageView(url: viewModel.iconURL) {
                 Text("Loading preview...")
                     .foregroundColor(.gray)
-                    .frame(width: 100, height: 100)
+                    .frame(width: Constants.Forecast.Cell.Image.width, height: Constants.Forecast.Cell.Image.height)
             } image: {
                 Image(uiImage: $0)
                     .resizable()
                     .interpolation(.medium)
                     .aspectRatio(1, contentMode: .fit)
-                    .frame(height: 100)
-                    .cornerRadius(5)
+                    .frame(height: Constants.Forecast.Cell.Image.height)
+                    .cornerRadius(Constants.Forecast.Cell.Image.cornerRadius)
             }
-            .shadow(color: Color.black.opacity(0.5), radius: 2, x: 2, y: 2)
-            .padding([.horizontal], 5)
+            .shadow(
+                color: Color.black.opacity(Constants.Forecast.Cell.Image.Shadow.opacity),
+                radius: Constants.Forecast.Cell.Image.Shadow.radius,
+                x: Constants.Forecast.Cell.Image.Shadow.Offset.x,
+                y: Constants.Forecast.Cell.Image.Shadow.Offset.y)
+            .padding([.horizontal], Constants.Forecast.Cell.elementPadding)
 
         }
     }

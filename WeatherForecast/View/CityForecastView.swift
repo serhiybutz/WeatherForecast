@@ -21,11 +21,11 @@ struct CityForecastView: View {
                     ZStack {
                         Rectangle()
                             .fill(Color.element)
-                            .topLeftShadow(radius: 3, offset: 1)
+                            .topLeftShadow(radius: Constants.Forecast.Shadow.cornerRadius, offset: Constants.Forecast.Shadow.cornerOffset)
                         Rectangle()
-                            .inset(by: 3)
+                            .inset(by: Constants.Forecast.InnerRect.inset)
                             .fill(Color.element)
-                            .rightBottomShadow(radius: 1, offset: 1)
+                            .rightBottomShadow(radius: Constants.Forecast.Shadow.cornerRadius, offset: Constants.Forecast.Shadow.cornerOffset)
                     }
                 )
             }
