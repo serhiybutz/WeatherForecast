@@ -29,7 +29,7 @@ class WeatherGovWebAPI {
         var localizedDescription: String {
             switch self {
             case .internal(let statusCode): return "Internal error, status code: \(statusCode)"
-            case .server(let statusCode): return "Server errir, Status code: \(statusCode)"
+            case .server(let statusCode): return "Server error, status code: \(statusCode)"
             case .unknown: return "Unknown error"
             }
         }

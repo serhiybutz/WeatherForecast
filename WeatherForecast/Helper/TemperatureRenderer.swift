@@ -1,3 +1,5 @@
+import Foundation
+
 struct TemperatureRenderer {
 
     static let celsiusSymbol = "℃" // °C
@@ -9,8 +11,8 @@ struct TemperatureRenderer {
         switch (sourceScale, targetScale) {
         case (.celsius, .celsius): return "\(sourceTemperature)\(celsiusSymbol)"
         case (.fahrenheit, .fahrenheit): return "\(sourceTemperature)\(fahrenheitSymbol)"
-        case (.celsius, .fahrenheit): return "\(sourceTemperature * 9 / 5 + 32)\(fahrenheitSymbol)"
-        case (.fahrenheit, .celsius): return "\((sourceTemperature - 32) * 5 / 9)\(celsiusSymbol)"
+        case (.celsius, .fahrenheit): return "\(Int(round(Double(sourceTemperature) * 9 / 5 + 32)))\(fahrenheitSymbol)"
+        case (.fahrenheit, .celsius): return "\(Int(round((Double(sourceTemperature) - 32) * 5 / 9)))\(celsiusSymbol)"
         }
     }
 }

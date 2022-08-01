@@ -9,7 +9,7 @@ enum TemperatureUnit: String {
 }
 
 struct CurrentTemperatureUnit: EnvironmentKey {
-    static var defaultValue: Binding<TemperatureUnit> = .constant(.fahrenheit)
+    static let defaultValue: Binding<TemperatureUnit> = .constant(.fahrenheit)
 }
 
 extension EnvironmentValues {    

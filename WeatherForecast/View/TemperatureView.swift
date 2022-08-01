@@ -14,6 +14,6 @@ struct TemperatureView: View {
             targetScale: currentTemperatureUnit.wrappedValue
         )
         
-        Text("\(temperature)")
+        Text(temperature)
     }
 }
