@@ -1,48 +1,44 @@
-import Foundation
+import Combine
+import UIKit
 
-struct PeriodViewModel: Identifiable {
+final class PeriodViewModel: ObservableObject {
 
     // MARK: - Properties
 
-    let id = UUID()
-
     let name: String
-    let iconURL: URL?
     let temperature: Int
     let temperatureUnit: TemperatureUnit
     let temperatureTrend: String?
     let windSpeed: String
     let shortForecast: String
     let detailedForecast: String
-}
 
-extension PeriodViewModel {
+    let iconLoader: AnyPublisher<UIImage, Error>
+    @Published var icon: UIImage?
 
     // MARK: - Initialization
 
-    init(_ apiPeriod: WeatherGovWebAPI.Period) {
-        self.name = apiPeriod.name
-        self.iconURL = URL(string: apiPeriod.icon)
-        self.temperature = apiPeriod.temperature
-        self.temperatureUnit = TemperatureUnit(rawValue: apiPeriod.temperatureUnit) ?? .fahrenheit
-        self.temperatureTrend = apiPeriod.temperatureTrend
-        self.windSpeed = apiPeriod.windSpeed
-        self.shortForecast = apiPeriod.shortForecast
-        self.detailedForecast = apiPeriod.detailedForecast
-    }
-}
+    init(from source: PeriodModel, iconLoader: AnyPublisher<UIImage, Error>) {
 
-extension PeriodViewModel: Equatable {
-    
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        guard lhs.name == rhs.name else { return false }
-        guard lhs.iconURL == rhs.iconURL else { return false }
-        guard lhs.temperature == rhs.temperature else { return false }
-        guard lhs.temperatureUnit == rhs.temperatureUnit else { return false }
-        guard lhs.temperatureTrend == rhs.temperatureTrend else { return false }
-        guard lhs.windSpeed == rhs.windSpeed else { return false }
-        guard lhs.shortForecast == rhs.shortForecast else { return false }
-        guard lhs.detailedForecast == rhs.detailedForecast else { return false }
-        return true
+        self.name = source.name
+        self.temperature = source.temperature
+        self.temperatureUnit = TemperatureUnit(rawValue: source.temperatureUnit) ?? .fahrenheit
+        self.temperatureTrend = source.temperatureTrend
+        self.windSpeed = source.windSpeed
+        self.shortForecast = source.shortForecast
+        self.detailedForecast = source.detailedForecast
+
+        self.iconLoader = iconLoader
+    }
+
+    // MARK: - API
+
+    func load() {
+
+        iconLoader
+            .receive(on: DispatchQueue.main) //Getting error
+            .map(Optional.some)
+            .replaceError(with: nil)
+            .assign(to: &$icon)
     }
 }

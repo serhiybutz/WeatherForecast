@@ -1,6 +1,6 @@
 import Foundation
 
-struct City: Codable, Identifiable {
+struct City: Codable, Identifiable, Equatable {
 
     // MARK: - Properties
     

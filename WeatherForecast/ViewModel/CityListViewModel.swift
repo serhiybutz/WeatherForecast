@@ -1,16 +1,22 @@
 import Foundation
 
-class CityListViewModel: ObservableObject {
+final class CityListViewModel: ObservableObject {
     
-    // MARK: - Properies
+    // MARK: - Properties
 
-    @Published var cities: [CityViewModel]
+    @Published var cities: [City]
+    let cityCellViewFor: (City) -> CityCellView
+    let cityForecastViewFor: (City) -> CityForecastView
 
     // MARK: - Initialization
 
-    init(_ list: CityList) {
-        self.cities = list.cities.map {
-            CityViewModel($0)
-        }
+    init(cityList: CityList,
+
+         cityCellViewFor: @escaping (City) -> CityCellView,
+         cityForecastViewFor: @escaping (City) -> CityForecastView) {
+
+        self.cities = cityList.cities
+        self.cityCellViewFor = cityCellViewFor
+        self.cityForecastViewFor = cityForecastViewFor
     }
 }

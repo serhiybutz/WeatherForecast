@@ -1,87 +1,95 @@
 import Combine
 import Foundation
+import UIKit
 
-class CityForecastViewModel: ObservableObject {
+final class CityForecastViewModel: ObservableObject {
 
     // MARK: - Types
 
     enum State {
         case fetching
         case error(Swift.Error)
-        case result([WeatherGovWebAPI.Period])
+        case result([PeriodModel])
     }
 
-    typealias LocationMetadataDataPublisherType = (WeatherGovWebAPI.Point) -> AnyPublisher<WeatherGovWebAPI.LocationMetadata, Swift.Error>
+    typealias LocationMetadataDataPublisherType = (PointModel) -> AnyPublisher<LocationMetadataModel, Swift.Error>
 
-    typealias WeeklyForecastPublisherType = (String, Int, Int) -> AnyPublisher<WeatherGovWebAPI.WeeklyForecast, Swift.Error>
+    typealias WeeklyForecastPublisherType = (String, Int, Int) -> AnyPublisher<WeeklyForecastModel, Swift.Error>
 
-    // MARK: - Properies
+    typealias IconPublisherType = (URL) -> AnyPublisher<UIImage, Error>
+
+    // MARK: - Properties
 
     @Published var state: State?
 
-    let cityViewModel: CityViewModel
+    let city: City
 
-    var periods: [PeriodViewModel] {
-        (state?.periods ?? []).map { PeriodViewModel($0) }
-    }
+    var periods: [PeriodModel] { state?.periods ?? [] }
 
     let locationMetadataDataPublisher: LocationMetadataDataPublisherType
     let weeklyForecastPublisher: WeeklyForecastPublisherType
+    let iconPublisher: IconPublisherType
 
     private var subscriptions: Set<AnyCancellable> = []
 
     // MARK: - Initialization
 
-    init(cityViewModel: CityViewModel,
-         locationMetadataDataPublisher: @escaping LocationMetadataDataPublisherType = WeatherGovWebAPI.locationMetadataDataPublisher,
-         weeklyForecastPublisher: @escaping WeeklyForecastPublisherType = WeatherGovWebAPI.weeklyForecastPublisher
+    init(city: City,
+         locationMetadataDataPublisher: @escaping LocationMetadataDataPublisherType,
+         weeklyForecastPublisher: @escaping WeeklyForecastPublisherType,
+         iconPublisher: @escaping IconPublisherType
     ) {
-        self.cityViewModel = cityViewModel
+        self.city = city
         self.locationMetadataDataPublisher = locationMetadataDataPublisher
         self.weeklyForecastPublisher = weeklyForecastPublisher
-        configure()
+        self.iconPublisher = iconPublisher
+    }
+
+    // MARK: - API
+
+    func periodViewModelFor(_ period: PeriodModel) -> PeriodViewModel {
+
+        PeriodViewModel(from: period, iconLoader: iconPublisher(URL(string: period.icon)!))
     }
 
     // MARK: - Helpers
 
-    private func configure() {
+    func load() {
 
-        Just(cityViewModel)
+        Just(city)
+            .receive(on: DispatchQueue.main)
             .handleEvents(receiveOutput: { _ in
 
-                Thread.runOnMainThreadSync {
-                    self.state = .fetching
-                }
+                self.state = .fetching
             })
         // Phase 1
-            .flatMap { city -> AnyPublisher<WeatherGovWebAPI.LocationMetadata, Never> in
+            .flatMap { city -> AnyPublisher<LocationMetadataModel, Never> in
 
-                self.getLocationMetadataAt(latitude: city.latitude, longitude: city.longitude)
+                return self.getLocationMetadataAt(latitude: city.latitude, longitude: city.longitude)
             }
         // Phase 2
-            .flatMap { meta in
+            .flatMap { meta -> AnyPublisher<WeeklyForecastModel, Never> in
 
-                self.getWeeklyForecast(wfo: meta.properties.gridId, x: meta.properties.gridX, y:  meta.properties.gridY)
+                self.getWeeklyForecast(wfo: meta.properties.gridId, x: meta.properties.gridX, y: meta.properties.gridY)
             }
+            .receive(on: DispatchQueue.main)
             .sink(receiveValue: { forecast in
 
-                Thread.runOnMainThreadSync {
-                    self.state = .result(forecast.properties.periods)
-                }
+                self.state = .result(forecast.properties.periods)
             })
             .store(in: &subscriptions)
     }
 
-    private func getLocationMetadataAt(latitude: Double, longitude: Double) -> AnyPublisher<WeatherGovWebAPI.LocationMetadata, Never> {
+    private func getLocationMetadataAt(latitude: Double, longitude: Double) -> AnyPublisher<LocationMetadataModel, Never> {
 
         locationMetadataDataPublisher(.init(lat: latitude, lon: longitude))
+            .receive(on: DispatchQueue.main)
             .handleEvents(receiveCompletion: { completion in
 
                 switch completion {
                 case .failure(let error):
-                    Thread.runOnMainThreadSync {
-                        self.state = .error(error)
-                    }
+
+                    self.state = .error(error)
                 case .finished: break
                 }
             })
@@ -92,16 +100,16 @@ class CityForecastViewModel: ObservableObject {
             .eraseToAnyPublisher()
     }
 
-    private func getWeeklyForecast(wfo: String, x: Int, y: Int) -> AnyPublisher<WeatherGovWebAPI.WeeklyForecast, Never> {
+    private func getWeeklyForecast(wfo: String, x: Int, y: Int) -> AnyPublisher<WeeklyForecastModel, Never> {
 
         weeklyForecastPublisher(wfo, x, y)
+            .receive(on: DispatchQueue.main)
             .handleEvents(receiveCompletion: { completion in
 
                 switch completion {
                 case .failure(let error):
-                    Thread.runOnMainThreadSync {
-                        self.state = .error(error)
-                    }
+
+                    self.state = .error(error)
                 case .finished: break
                 }
             })
@@ -122,7 +130,7 @@ extension CityForecastViewModel.State {
         }
     }
 
-    var periods: [WeatherGovWebAPI.Period] {
+    var periods: [PeriodModel] {
         if case .result(let periods) = self {
             return periods
         } else {

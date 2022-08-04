@@ -19,7 +19,7 @@ import OSLog
  Example: https://api.weather.gov/gridpoints/LWX/97,71/forecast.
  */
 
-class WeatherGovWebAPI {
+final class WeatherGovWebAPI {
 
     enum Error: Swift.Error {
         case `internal`(statusCode: Int)
@@ -37,9 +37,22 @@ class WeatherGovWebAPI {
 
     private var subscriptions: Set<AnyCancellable> = []
 
-    static private func dataTaskPublisher(for url: URL) -> AnyPublisher<Data, Swift.Error> {
+    enum DataTaskPublisherArg {
+        case url(URL)
+        case request(URLRequest)
+    }
 
-        URLSession.shared.dataTaskPublisher(for: url)
+    private func dataTaskPublisher(args: DataTaskPublisherArg) -> AnyPublisher<Data, Swift.Error> {
+
+        let publisher: URLSession.DataTaskPublisher
+        switch args {
+        case .url(let url):
+            publisher = URLSession.shared.dataTaskPublisher(for: url)
+        case .request(let request):
+            publisher = URLSession.shared.dataTaskPublisher(for: request)
+        }
+
+        return publisher
             .tryMap { data, response in
 
                 guard let httpResponse = response as? HTTPURLResponse else {
@@ -58,19 +71,18 @@ class WeatherGovWebAPI {
 
                 return data
             }
-
             .eraseToAnyPublisher()
     }
 
-    static func locationMetadataDataPublisher(point: Point) -> AnyPublisher<LocationMetadata, Swift.Error> {
+    func locationMetadataDataPublisher(point: Model.Point) -> AnyPublisher<Model.LocationMetadata, Swift.Error> {
 
-        guard let endpointURL = LocationMetadataEndpoint(location: point).url
+        guard let request = LocationMetadataRequest(location: point)?.request
         else {
             return Fail(error: URLError(URLError.badURL)).eraseToAnyPublisher()
         }
 
-        return dataTaskPublisher(for: endpointURL)
-            .decode(type: LocationMetadata.self, decoder: JSONDecoder())
+        return dataTaskPublisher(args: .request(request))
+            .decode(type: Model.LocationMetadata.self, decoder: JSONDecoder())
             .handleEvents(receiveOutput: { meta in
 
                 dispatchPrecondition(condition: .notOnQueue(.main))
@@ -85,15 +97,15 @@ class WeatherGovWebAPI {
             .eraseToAnyPublisher()
     }
 
-    static func weeklyForecastPublisher(wfo: String, x: Int, y: Int) -> AnyPublisher<WeeklyForecast, Swift.Error> {
+    func weeklyForecastPublisher(wfo: String, x: Int, y: Int) -> AnyPublisher<Model.WeeklyForecast, Swift.Error> {
 
-        guard let endpointURL = GridpointForecastEndpoint(wfo: wfo, x: x, y: y).url
+        guard let request = GridpointForecastRequest(wfo: wfo, x: x, y: y)?.request
         else {
             return Fail(error: URLError(URLError.badURL)).eraseToAnyPublisher()
         }
 
-        return dataTaskPublisher(for: endpointURL)
-            .decode(type: WeeklyForecast.self, decoder: JSONDecoder())
+        return dataTaskPublisher(args: .request(request))
+            .decode(type: Model.WeeklyForecast.self, decoder: JSONDecoder())
             .handleEvents(receiveOutput: { forecast in
 
                 dispatchPrecondition(condition: .notOnQueue(.main))
@@ -108,9 +120,9 @@ class WeatherGovWebAPI {
             .eraseToAnyPublisher()
     }
 
-    static func iconDownloadPublisher(url: URL) -> AnyPublisher<Data, Swift.Error> {
+    func iconDownloadPublisher(url: URL) -> AnyPublisher<Data, Swift.Error> {
 
-        return dataTaskPublisher(for: url)
+        dataTaskPublisher(args: .url(url))
             .handleEvents(receiveOutput: { forecast in
 
                 dispatchPrecondition(condition: .notOnQueue(.main))
@@ -128,5 +140,6 @@ class WeatherGovWebAPI {
 
 extension WeatherGovWebAPI {
 
+    static let scheme = "https"
     static let host = "api.weather.gov"
 }

@@ -1,8 +1,9 @@
+import Combine
 import SwiftUI
 
 struct CityForecastView: View {
 
-    @ObservedObject var viewModel: CityForecastViewModel
+    @StateObject var viewModel: CityForecastViewModel
     @Environment(\.dismiss) var dismiss
     @Environment(\.currentTemperatureUnit) var currentTemperatureUnit
 
@@ -15,7 +16,7 @@ struct CityForecastView: View {
             ForEach(viewModel.periods) { period in
 
                 Group {
-                    CityForecastCellView(viewModel: period)
+                    CityForecastCellView(viewModel: viewModel.periodViewModelFor(period))
                 }
                 .background(
                     ZStack {
@@ -33,7 +34,7 @@ struct CityForecastView: View {
             .listRowBackground(Color.element)
             .listRowInsets(.none)
         }
-        .navigationTitle(viewModel.cityViewModel.name)
+        .navigationTitle(viewModel.city.name)
         .listStyle(.plain)
         .background(Color.element)
         .navigationBarItems(
@@ -47,18 +48,50 @@ struct CityForecastView: View {
             let error = err.wrappedValue!
             return Alert(
                 title: Text("Error!"),
-                message: Text((error as? WeatherGovWebAPI.Error)?.localizedDescription ?? error.localizedDescription),
+                message: Text(error.clientPresentableMessage),
                 dismissButton: .default(Text("OK"), action: {
                     viewModel.state = nil
                     dismiss()
-                }))
+                })
+            )
         })
+        .onAppear {
+            
+            viewModel.load()
+        }
     }
 }
 
+#if DEBUG
 struct CityForecastView_Previews: PreviewProvider {
+
     static var previews: some View {
-        CityForecastView(viewModel: CityForecastViewModel(cityViewModel: CityViewModel(City(name: "Chicago", latitude: 41.8781136, longitude: -87.6297982))))
+        
+        CityForecastView(
+            viewModel: CityForecastViewModel(
+                city: City(name: "Chicago", latitude: 41.8781136, longitude: -87.6297982),
+                locationMetadataDataPublisher: { _ in
+                    Just(LocationMetadataModel(
+                        properties: .init(
+                            gridId: "foo",
+                            gridX: 100,
+                            gridY: 200)))
+                    .setFailureType(to: Error.self)
+                    .eraseToAnyPublisher()
+                },
+                weeklyForecastPublisher: { _, _ ,_  in
+                    Just(WeeklyForecastModel(
+                        from: .init(properties: .init(periods: []))))
+                    .setFailureType(to: Error.self)
+                    .eraseToAnyPublisher()
+                }, iconPublisher: { _ in
+                    Empty()
+                        .setOutputType(to: UIImage.self)
+                        .setFailureType(to: Error.self)
+                        .eraseToAnyPublisher()
+                }
+            )
+        )
     }
 }
-
+#endif

@@ -1,8 +1,9 @@
+import Combine
 import SwiftUI
 
 struct CityForecastCellView: View {
 
-    let viewModel: PeriodViewModel
+    @StateObject var viewModel: PeriodViewModel
 
     var body: some View {
 
@@ -44,7 +45,7 @@ struct CityForecastCellView: View {
 
 struct CityForecastCellBriefView: View {
 
-    let viewModel: PeriodViewModel
+    @ObservedObject var viewModel: PeriodViewModel
 
     var body: some View {
 
@@ -61,17 +62,23 @@ struct CityForecastCellBriefView: View {
             )
             .padding([.horizontal], Constants.Forecast.Cell.elementPadding)
 
-            AsyncImageView(url: viewModel.iconURL) {
-                Text("Loading preview...")
-                    .foregroundColor(.gray)
-                    .frame(width: Constants.Forecast.Cell.Image.width, height: Constants.Forecast.Cell.Image.height)
-            } image: {
-                Image(uiImage: $0)
-                    .resizable()
-                    .interpolation(.medium)
-                    .aspectRatio(1, contentMode: .fit)
-                    .frame(height: Constants.Forecast.Cell.Image.height)
-                    .cornerRadius(Constants.Forecast.Cell.Image.cornerRadius)
+            Group {
+                if let icon = viewModel.icon {
+
+                    Image(uiImage: icon)
+                        .resizable()
+                        .interpolation(.medium)
+                        .aspectRatio(1, contentMode: .fit)
+                        .frame(width: Constants.Forecast.Cell.Image.width, height: Constants.Forecast.Cell.Image.height)
+                        .cornerRadius(Constants.Forecast.Cell.Image.cornerRadius)
+
+                } else {
+
+                    ProgressView()
+                        .frame(width: Constants.Forecast.Cell.Image.width, height: Constants.Forecast.Cell.Image.height)
+                        .foregroundColor(.gray)
+
+                }
             }
             .shadow(
                 color: Color.black.opacity(Constants.Forecast.Cell.Image.Shadow.opacity),
@@ -81,14 +88,39 @@ struct CityForecastCellBriefView: View {
             .padding([.horizontal], Constants.Forecast.Cell.elementPadding)
 
         }
+        .onAppear {
+
+            viewModel.load()
+        }
     }
 }
-
 
 #if DEBUG
 struct CityForecastCellView_Previews: PreviewProvider {
     static var previews: some View {
-        return CityForecastCellView(viewModel: PeriodViewModel(name: "Today", iconURL: URL(string: "https://api.weather.gov/icons/land/night/tsra_hi,20/fog?size=medium"), temperature: 20, temperatureUnit: .fahrenheit, temperatureTrend: nil, windSpeed: "bla-bla-bla", shortForecast: "bla", detailedForecast: "bla-bla-bla"))
+        return CityForecastCellView(
+            viewModel: PeriodViewModel(
+                from: PeriodModel(
+                    number: 1,
+                    name: "Today",
+                    startTime: "",
+                    endTime: "",
+                    isDatetime: nil,
+                    temperature: 20,
+                    temperatureUnit: "f",
+                    temperatureTrend: nil,
+                    windSpeed: "bla-bla-bla",
+                    windDirection: "bla",
+                    icon: "https://api.weather.gov/icons/land/night/tsra_hi,20/fog?size=medium",
+                    shortForecast: "bla",
+                    detailedForecast: "bla-bla-bla"),
+                iconLoader:
+                    Empty()
+                    .setOutputType(to: UIImage.self)
+                    .setFailureType(to: Error.self)
+                    .eraseToAnyPublisher()
+            )
+        )
     }
 }
 #endif

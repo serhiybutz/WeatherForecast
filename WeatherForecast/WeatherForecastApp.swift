@@ -12,10 +12,19 @@ struct WeatherForecastApp: App {
 
     init() {
 
+        suppressUnsatisfiableConstrantsWarning()
+        removeAllCachedResponses()
         configNavBarAppearance()
+    }
+
+    func suppressUnsatisfiableConstrantsWarning() {
+
+        UserDefaults.standard.set(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
+    }
+
+    func removeAllCachedResponses() {
 
         URLCache.shared.removeAllCachedResponses()
-//        UserDefaults.standard.set(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
     }
 
     func configNavBarAppearance() {
