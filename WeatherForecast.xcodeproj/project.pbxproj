@@ -15,7 +15,6 @@
 		409352F928839FCA000C69EB /* View+Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409352F228839FCA000C69EB /* View+Shadow.swift */; };
 		409352FA28839FCA000C69EB /* NeuButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409352F328839FCA000C69EB /* NeuButtonStyle.swift */; };
 		409352FB28839FCA000C69EB /* TemperatureRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409352F428839FCA000C69EB /* TemperatureRenderer.swift */; };
-		409352FC28839FCA000C69EB /* Thread+runOnMainThreadSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409352F528839FCA000C69EB /* Thread+runOnMainThreadSync.swift */; };
 		409352FD28839FCA000C69EB /* NeuCapsuleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409352F628839FCA000C69EB /* NeuCapsuleButtonStyle.swift */; };
 		409352FE28839FCA000C69EB /* Color+Neu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409352F728839FCA000C69EB /* Color+Neu.swift */; };
 		409353082883A037000C69EB /* CityForecastCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409353012883A036000C69EB /* CityForecastCellView.swift */; };
@@ -75,7 +74,6 @@
 		409352F228839FCA000C69EB /* View+Shadow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+Shadow.swift"; sourceTree = "<group>"; };
 		409352F328839FCA000C69EB /* NeuButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuButtonStyle.swift; sourceTree = "<group>"; };
 		409352F428839FCA000C69EB /* TemperatureRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureRenderer.swift; sourceTree = "<group>"; };
-		409352F528839FCA000C69EB /* Thread+runOnMainThreadSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Thread+runOnMainThreadSync.swift"; sourceTree = "<group>"; };
 		409352F628839FCA000C69EB /* NeuCapsuleButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuCapsuleButtonStyle.swift; sourceTree = "<group>"; };
 		409352F728839FCA000C69EB /* Color+Neu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+Neu.swift"; sourceTree = "<group>"; };
 		409353012883A036000C69EB /* CityForecastCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityForecastCellView.swift; sourceTree = "<group>"; };
@@ -200,7 +198,6 @@
 				409352F328839FCA000C69EB /* NeuButtonStyle.swift */,
 				409352F628839FCA000C69EB /* NeuCapsuleButtonStyle.swift */,
 				409352F428839FCA000C69EB /* TemperatureRenderer.swift */,
-				409352F528839FCA000C69EB /* Thread+runOnMainThreadSync.swift */,
 				409352F228839FCA000C69EB /* View+Shadow.swift */,
 				40E9ECEE28DD58A000C67EC2 /* ImageCache.swift */,
 				40E9ED0E28DF8B3800C67EC2 /* Publisher+shareReplay.swift */,
@@ -397,7 +394,6 @@
 				40E9ED1128E0B23000C67EC2 /* Error+clientPresentable.swift in Sources */,
 				409352FA28839FCA000C69EB /* NeuButtonStyle.swift in Sources */,
 				40E9ECD528DCAD9D00C67EC2 /* WeatherGovWebAPI+RemoteAPIEndpoint.swift in Sources */,
-				409352FC28839FCA000C69EB /* Thread+runOnMainThreadSync.swift in Sources */,
 				409353222883A0CF000C69EB /* CityList.swift in Sources */,
 				409353212883A0CF000C69EB /* City.swift in Sources */,
 				4093530B2883A037000C69EB /* ContentView.swift in Sources */,
